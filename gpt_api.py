@@ -113,4 +113,8 @@ def get_compatibility_analysis(features1, features2, name1="첫 번째 사람", 
         messages=[{"role": "user", "content": prompt}]
     )
 
+<<<<<<< HEAD
     return remove_duplicate_lines(response.choices[0].message.content)
+=======
+    return remove_duplicate_lines(response.choices[0].message.content)
+>>>>>>> 8e53b18ea6171eb5215f5d6d3ec59f87b60ccae2
