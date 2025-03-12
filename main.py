@@ -2,6 +2,7 @@ from face_analysis import extract_face_features
 from gpt_api import get_face_analysis, get_compatibility_analysis
 from fastapi import FastAPI, File, UploadFile
 from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 import numpy as np
 import cv2
