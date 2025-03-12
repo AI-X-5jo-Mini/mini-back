@@ -40,7 +40,7 @@ def get_face_analysis(features, person_name="이 사람"):
     client = openai.OpenAI(api_key=api_key)
 
     response = client.chat.completions.create(
-        model="gpt-4o",
+        model="gpt-4o-mini",
         messages=[{"role": "user", "content": prompt}]
     )
 
@@ -160,8 +160,8 @@ def get_compatibility_analysis(features1, features2, name1="첫 번째 사람", 
     - 대화 궁합
     - 재물운 조화
     - 장기적 관계 안정성
-    6. 궁합 점수를 시각적 차트(막대 그래프, 레이더 차트)로 표현해줘.
-    7. 초년, 중년, 말년 운세를 분석하고 차트로 제공해줘.    
+
+    예시: 
     """
 
     client = openai.OpenAI(api_key=api_key)
@@ -172,3 +172,4 @@ def get_compatibility_analysis(features1, features2, name1="첫 번째 사람", 
     )
 
     return remove_duplicate_lines(response.choices[0].message.content)
+
