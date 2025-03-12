@@ -6,6 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 import numpy as np
 import cv2
+import time
 
 app = FastAPI()
 
@@ -19,7 +20,8 @@ def is_human(img):
 
 @app.post("/analyze/")
 async def analyze_faces(image1: UploadFile = File(...), image2: UploadFile = File(None)):
-    # 첫 번째 이미지 처리
+    start_time = time.time()
+    # 첫 번째 얼굴 특징 추출
     image1_bytes = await image1.read()
     image1_array = np.frombuffer(image1_bytes, np.uint8)
     image1_cv2 = cv2.imdecode(image1_array, cv2.IMREAD_COLOR)
@@ -54,8 +56,8 @@ async def analyze_faces(image1: UploadFile = File(...), image2: UploadFile = Fil
     
     # 두 사람의 궁합 분석 수행
     compatibility_result = get_compatibility_analysis(features1, features2, "첫 번째 사람", "두 번째 사람")
-    print(compatibility_result)
-    return JSONResponse(content={"compatibility_result": compatibility_result})
+    end_time = time.time()
+    return JSONResponse(content={"compatibility_result": compatibility_result, "time": end_time - start_time})
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
