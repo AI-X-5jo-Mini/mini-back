@@ -53,7 +53,7 @@ def get_compatibility_analysis(features1, features2, name1="첫 번째 사람", 
     너는 우리나라 최고의 관상가야.
     다음 두 사람의 얼굴 특징을 비교하고 관상학적으로 궁합을 분석해줘.
 
-    {name1}의 얼굴 특징:
+    첫 번째 사람: {name1}
     - 이마 넓이: {features1['forehead_width']}
     - 이마 높이: {features1['forehead_height']}
     - 눈 크기: {features1['eye_size']}
@@ -66,7 +66,7 @@ def get_compatibility_analysis(features1, features2, name1="첫 번째 사람", 
     - 턱 길이: {features1['jaw_length']}
     - 미간 거리: {features1['brow_distance']}
 
-    {name2}의 얼굴 특징:
+    두 번째 사람: {name2}
     - 이마 넓이: {features2['forehead_width']}
     - 이마 높이: {features2['forehead_height']}
     - 눈 크기: {features2['eye_size']}
