@@ -2,12 +2,21 @@ from face_analysis import extract_face_features
 from gpt_api import get_face_analysis, get_compatibility_analysis
 from fastapi import FastAPI, File, UploadFile
 from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 import numpy as np
 import cv2
 import time
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # 특정 도메인만 허용하려면 ["https://example.com"] 등 지정
+    allow_credentials=True,
+    allow_methods=["*"],  # 모든 HTTP 메서드 허용 (GET, POST, PUT, DELETE 등)
+    allow_headers=["*"],  # 모든 헤더 허용
+)
 
 @app.post("/analyze/")
 async def analyze_faces(image1: UploadFile = File(...), image2: UploadFile = File(None)):
