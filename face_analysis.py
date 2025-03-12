@@ -7,16 +7,10 @@ from utils import calculate_distance
 mp_face_mesh = mp.solutions.face_mesh
 face_mesh = mp_face_mesh.FaceMesh(static_image_mode=True, max_num_faces=1)
 
-<<<<<<< HEAD
 def extract_face_features(image_array):
     """얼굴 특징 추출 (이마, 눈, 코, 입 등)"""
     image_rgb = cv2.cvtColor(image_array, cv2.COLOR_BGR2RGB)
-=======
-def extract_face_features(image_path):
-    """얼굴 특징 추출 (이마, 눈, 코, 입 등)"""
-    image = cv2.imread(image_path)
-    image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
->>>>>>> 8e53b18ea6171eb5215f5d6d3ec59f87b60ccae2
+
     
     results = face_mesh.process(image_rgb)
     
@@ -44,10 +38,6 @@ def extract_face_features(image_path):
     return features
 
 if __name__ == "__main__":
-<<<<<<< HEAD
     features = extract_face_features(cv2.imread("images/face.jpg"))
     print("얼굴 특징:", features)
-=======
-    features = extract_face_features("images/face.jpg")
-    print("얼굴 특징:", features)
->>>>>>> 8e53b18ea6171eb5215f5d6d3ec59f87b60ccae2
+
