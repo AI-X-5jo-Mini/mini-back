@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "mini-back"
+version = "0.1.0"
+description = "A FastAPI application for face analysis"
+authors = ["Jung woochan <hammeri@naver.com>"]
+package-mode = false
+
+[tool.poetry.dependencies]
+python = ">=3.12"
+# 기타 필수 패키지
+fastapi = "^0.70.0"
+uvicorn = "^0.15.0"
+opencv-python = "^4.5.3"
+numpy = "^1.21.2"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api" 
