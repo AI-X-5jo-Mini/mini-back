@@ -7,8 +7,17 @@ import uvicorn
 import numpy as np
 import cv2
 import time
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # 특정 도메인만 허용하려면 ["https://example.com"] 등 지정
+    allow_credentials=True,
+    allow_methods=["*"],  # 모든 HTTP 메서드 허용 (GET, POST, PUT, DELETE 등)
+    allow_headers=["*"],  # 모든 헤더 허용
+)
 
 # 얼굴 검출을 위한 Cascade Classifier 초기화
 face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
