@@ -11,7 +11,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
-app.add_middleware(
+app.add_middleware (
     CORSMiddleware,
     allow_origins=["*"],  # 특정 도메인만 허용하려면 ["https://example.com"] 등 지정
     allow_credentials=True,
@@ -37,7 +37,7 @@ async def analyze_faces(image1: UploadFile = File(...), image2: UploadFile = Fil
     
     # 첫 번째 이미지 사람/동물 판단
     if not is_human(image1_cv2):
-        return JSONResponse(content={"error": " 사람 사진을 업로드해주세요."}, status_code=400)
+        return JSONResponse(content={"error": "사람1 사진을 업로드해주세요."}, status_code=400)
     
     # 첫 번째 얼굴 특징 추출
     features1 = extract_face_features(image1_cv2)
@@ -56,7 +56,7 @@ async def analyze_faces(image1: UploadFile = File(...), image2: UploadFile = Fil
     
     # 두 번째 이미지 사람/동물 판단
     if not is_human(image2_cv2):
-        return JSONResponse(content={"error": "사람 사진을 업로드해주세요."}, status_code=400)
+        return JSONResponse(content={"error": "사람2 사진을 업로드해주세요."}, status_code=400)
     
     # 두 번째 얼굴 특징 추출
     features2 = extract_face_features(image2_cv2)
