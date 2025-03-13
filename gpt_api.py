@@ -72,27 +72,50 @@ def get_compatibility_analysis(features1, features2, name1="첫 번째 사람", 
     """
 
     prompt = f"""
-    너는 대한민국 최고의 관상가야. 
+    너는 대한민국 최고의 관상가야.  
     {name1}과 {name2}의 얼굴 특징을 비교하고 전통 관상학을 바탕으로 세 부분으로 나누어 궁합을 분석해줘.  
-    결과는 **마크다운이 아닌 일반 텍스트 형식으로 출력해줘.**
+    결과는 **마크다운이 아닌 일반 텍스트 형식으로 출력해줘.**  
+    **응답은 반드시 한국어로 작성해야 해.**
 
-    1️⃣ {name1}의 관상:
-    {face_info1} 
-    **6줄이내로 정리해줘**
+    1️⃣ {name1}의 관상:  
+    {face_info1}  
+    **6줄 이내로 정리해줘.**  
 
-    2️⃣ {name2}의 관상:
-    {face_info2}
-    **6줄이내로 정리해줘**
+    2️⃣ {name2}의 관상:  
+    {face_info2}  
+    **6줄 이내로 정리해줘.**  
 
-    3️⃣ 두 사람의 궁합:
-    종합 점수와 설명을 6줄 이내로 정리해줘
+    3️⃣ 두 사람의 궁합:  
+    - **총점은 반드시 "총점은 ~점입니다." 형식으로 출력해줘.**  
+    - 점수는 100점 만점 기준으로 평가해줘.  
+    - 종합 점수와 설명을 포함하되, **6줄 이내로 정리해줘.**  
+    - **마지막 문장은 반드시 "총점은 ~점입니다." 형식으로 끝나야 합니다.**  
 
-    응답은 반드시 다음 형식으로 작성해줘:
-    (첫 번째 사람 분석 내용)
-    ***
-    (두 번째 사람 분석 내용)
-    ***
-    (두 사람의 궁합 분석 내용)
+    🔹 **각각의 외모, 성격, 취향, 가치관, 미래 점수를 1~5 범위에서 부여해줘.**  
+    🔹 **점수는 반드시 논리적인 기준을 따라야 합니다.**  
+    - **5점: 매우 강한 특징 (예: 뚜렷한 개성이 있는 외모, 독보적인 성격)  
+    - 4점: 평균 이상 (눈에 띄는 특성이 있음)  
+    - 3점: 보통 (크게 튀지 않지만 균형 잡힘)  
+    - 2점: 평균 이하 (뚜렷한 장점이 부족한 경우)  
+    - 1점: 매우 희미한 특징 (특성이 거의 없는 경우)**  
+
+    🔹 **출력 형식 (고정)**  
+    (첫 번째 사람 분석 내용)  
+    *** (구분선)  
+    (두 번째 사람 분석 내용)  
+    *** (구분선)  
+    (두 사람의 궁합 분석 내용)  
+    마지막 줄은 **"총점은 ~점입니다."** 형식으로 끝내줘.  
+    *** (구분선)  
+    외모 : {name1} 점수, {name2} 점수
+    *** (구분선)  
+    성격 : {name1} 점수, {name2} 점수
+    *** (구분선)  
+    취향 : {name1} 점수, {name2} 점수
+    *** (구분선)  
+    가치관 : {name1} 점수, {name2} 점수
+    *** (구분선)  
+    미래 : {name1} 점수, {name2} 점수
     """
 
     response = client.chat.completions.create(
@@ -112,7 +135,12 @@ def get_compatibility_analysis(features1, features2, name1="첫 번째 사람", 
         result = {
             "person1_analysis": remove_duplicate_lines(parts[0].strip()),
             "person2_analysis": remove_duplicate_lines(parts[1].strip()),
-            "compatibility_analysis": remove_duplicate_lines(parts[2].strip())
+            "compatibility_analysis": remove_duplicate_lines(parts[2].strip()),
+            "score1": remove_duplicate_lines(parts[3].strip()),
+            "score2": remove_duplicate_lines(parts[4].strip()),
+            "score3": remove_duplicate_lines(parts[5].strip()),
+            "score4": remove_duplicate_lines(parts[6].strip()),
+            "score5": remove_duplicate_lines(parts[7].strip())
         }
     else:
         # 분리가 제대로 되지 않은 경우 전체 응답을 compatibility_analysis에 저장
