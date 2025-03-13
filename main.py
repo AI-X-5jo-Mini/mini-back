@@ -29,7 +29,6 @@ def is_human(img):
 
 @app.post("/analyze/")
 async def analyze_faces(files: list[UploadFile] = File(...)):
-    print("디버깅")
     start_time = time.time()
     
     if not files:

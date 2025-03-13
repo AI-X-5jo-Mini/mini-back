@@ -19,7 +19,6 @@ def remove_duplicate_lines(text):
     return "\n".join(filtered_lines)
 
 def get_face_analysis(features, person_name="이 사람"):
-    print("한명의관상")
     prompt = f"""
     {person_name}의 얼굴 특징 분석:
      이마: {features['forehead_width']}, {features['forehead_height']}
