@@ -19,22 +19,18 @@ def remove_duplicate_lines(text):
     return "\n".join(filtered_lines)
 
 def get_face_analysis(features, person_name="이 사람"):
-    """GPT를 사용한 개별 관상 분석"""
     prompt = f"""
     {person_name}의 얼굴 특징 분석:
-    - 이마 넓이: {features['forehead_width']}
-    - 이마 높이: {features['forehead_height']}
-    - 눈 크기: {features['eye_size']}
-    - 눈 사이 거리: {features['eye_distance']}
-    - 코 길이: {features['nose_length']}
-    - 콧볼 넓이: {features['nose_width']}
-    - 입 길이: {features['mouth_width']}
-    - 입술 두께: {features['lip_thickness']}
-    - 광대뼈 너비: {features['cheekbone_width']}
-    - 턱 길이: {features['jaw_length']}
-    - 미간 거리: {features['brow_distance']}
+     이마: {features['forehead_width']}, {features['forehead_height']}
+    눈: {features['eye_size']}, {features['eye_distance']}
+    코: {features['nose_length']}, {features['nose_width']}
+    입: {features['mouth_width']}, {features['lip_thickness']}
+    광대뼈: {features['cheekbone_width']}
+    턱: {features['jaw_length']}
+    미간: {features['brow_distance']}
 
-    위 정보를 바탕으로 한국 전통 관상학적 해석을 제공해줘.
+    너는 대한민국 최고의 관상가야. 
+    {person_name}의 얼굴 특징을 전통 관상학을 바탕으로 분석해서 정확히 6줄 이내로 설명해줘.
     """
 
     client = openai.OpenAI(api_key=api_key)
@@ -44,7 +40,7 @@ def get_face_analysis(features, person_name="이 사람"):
         messages=[{"role": "user", "content": prompt}]
     )
 
-    return remove_duplicate_lines(response.choices[0].message.content)
+    return response.choices[0].message.content.strip()
 
 
 def get_compatibility_analysis(features1, features2, name1="첫 번째 사람", name2="두 번째 사람"):
