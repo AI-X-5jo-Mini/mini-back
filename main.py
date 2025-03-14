@@ -34,6 +34,7 @@ async def analyze_faces(
     image2: UploadFile = File(None),
     mode: str = Form(...)
 ):
+    print(mode)
     start_time = time.time()
     
     if not image1:
