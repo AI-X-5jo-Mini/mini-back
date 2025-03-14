@@ -28,7 +28,12 @@ def is_human(img):
     return len(faces) > 0
 
 @app.post("/analyze/")
-async def analyze_faces(image1: UploadFile = File(...), image2: UploadFile = File(None)):
+async def analyze_faces(
+    image1: UploadFile = File(...),
+    image2: UploadFile = File(None),
+    mode: str = Form(...)
+):
+    print(mode)
     start_time = time.time()
     # 첫 번째 얼굴 특징 추출
     image1_bytes = await image1.read()
