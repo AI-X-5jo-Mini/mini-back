@@ -1,7 +1,6 @@
 from face_analysis import extract_face_features
 from gpt_api import get_face_analysis, get_compatibility_analysis
-from fastapi import FastAPI, File, UploadFile, Form
-from fastapi import FastAPI, File, UploadFile, Form
+from fastapi import FastAPI, File, UploadFile
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
@@ -12,7 +11,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
-app.add_middleware(
+app.add_middleware (
     CORSMiddleware,
     allow_origins=["*"],  # 특정 도메인만 허용하려면 ["https://example.com"] 등 지정
     allow_credentials=True,
@@ -36,10 +35,6 @@ async def analyze_faces(
 ):
     print(mode)
     start_time = time.time()
-    
-    if not image1:
-        return JSONResponse(content={"error": "첫 번째 이미지를 업로드해주세요."}, status_code=400)
-    
     # 첫 번째 얼굴 특징 추출
     image1_bytes = await image1.read()
     image1_array = np.frombuffer(image1_bytes, np.uint8)
@@ -47,30 +42,26 @@ async def analyze_faces(
     
     # 첫 번째 이미지 사람/동물 판단
     if not is_human(image1_cv2):
-        return JSONResponse(content={"error": "사람 사진을 업로드해주세요."}, status_code=400)
+        return JSONResponse(content={"error": "사람1 사진을 업로드해주세요."}, status_code=400)
     
     # 첫 번째 얼굴 특징 추출
     features1 = extract_face_features(image1_cv2)
     if not features1:
         return JSONResponse(content={"error": "첫 번째 얼굴을 감지하지 못했습니다."}, status_code=400)
     
-    # 싱글 모드이거나 두 번째 사진이 없으면 첫 번째 사람의 단독 분석 수행
-    if mode == "single" or image2 is None:
-        analysis = get_face_analysis(features1)
-        end_time = time.time()
-        return JSONResponse(content={"analysis": analysis, "time": end_time - start_time})
+    # 두 번째 사진이 없으면 첫 번째 사람의 단독 분석 수행
+    if not image2:
+        analysis = get_face_analysis(features1, "이 사람")
+        return JSONResponse(content={"analysis": analysis})
     
-    try:
-        # 두 번째 이미지 처리
-        image2_bytes = await image2.read()
-        image2_array = np.frombuffer(image2_bytes, np.uint8)
-        image2_cv2 = cv2.imdecode(image2_array, cv2.IMREAD_COLOR)
-    except Exception:
-        return JSONResponse(content={"error": "두 번째 이미지 처리 중 오류가 발생했습니다."}, status_code=400)
+    # 두 번째 이미지 처리
+    image2_bytes = await image2.read()
+    image2_array = np.frombuffer(image2_bytes, np.uint8)
+    image2_cv2 = cv2.imdecode(image2_array, cv2.IMREAD_COLOR)
     
     # 두 번째 이미지 사람/동물 판단
     if not is_human(image2_cv2):
-        return JSONResponse(content={"error": "두 번째 이미지에서 사람 얼굴을 찾을 수 없습니다."}, status_code=400)
+        return JSONResponse(content={"error": "사람2 사진을 업로드해주세요."}, status_code=400)
     
     # 두 번째 얼굴 특징 추출
     features2 = extract_face_features(image2_cv2)
